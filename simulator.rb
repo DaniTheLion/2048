@@ -1,11 +1,12 @@
 require './solver'
-NUM_OF_SIMULATIONS = 1000
+NUM_OF_SIMULATIONS = 100
 
 res_str = ""
 
 # solver = D2.new
-[ RandomSolver, D1, D2, D3 ].each do |solver_class|
-# [ D3 ].each do |solver_class|
+[ RandomSolver, D1, D2, D3, NeverGoesUp, OneMoveAhead ].each do |solver_class|
+# [ TwoMovesAhead ].each do |solver_class|
+# [ NeverGoesUp ].each do |solver_class|
 	solver = solver_class.new
 	n_wins, n_loses = 0, 0
 	max_tiles = []

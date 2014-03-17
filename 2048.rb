@@ -206,8 +206,8 @@ class Game
 
 					if tile != target_tile
 						merge_factor = factor_for_moving(tile, target_tile)
-						target_tile.set(tile.val + merge_factor)
 						target_tile.is_alreday_merged = true if target_tile.val == tile.val
+						target_tile.set(tile.val + merge_factor)
 						tile.set_empty
 					end
 				end
