@@ -24,3 +24,5 @@ res_str = ""
 	res_str += "#{solver}\nWON: #{n_wins}\nLOST: #{n_loses}\nHIGHEST TILE: #{max_tiles.max}\nAVERAGE HIGHEST TILE: #{max_avg_tile}\n\n"
 end
 puts res_str
+
+# some changes
