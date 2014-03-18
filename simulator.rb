@@ -1,5 +1,5 @@
 require './solver'
-NUM_OF_SIMULATIONS = 10
+num_of_simulations = (ARGV[0] || 20).to_i
 
 res_str = ""
 
@@ -10,9 +10,9 @@ res_str = ""
 	solver = Solver.new(strategy)
 	n_wins, n_loses = 0, 0
 	max_tiles = []
-	NUM_OF_SIMULATIONS.times do 
+	num_of_simulations.times do 
 		solver.game = Game.new
-		NUM_OF_SIMULATIONS == 1 ? solver.solve_to_file!("#{strategy}.log") : solver.solve!
+		num_of_simulations == 1 ? solver.solve_to_file!("#{strategy}.log") : solver.solve!
 		if solver.won?
 			n_wins += 1
 		elsif solver.lost?
