@@ -29,12 +29,30 @@ class Board
 		end
 	end
 
+
+	def format_tile(tile)
+		
+		if tile.empty?
+			' ' * 7
+		else
+			p = (7 - tile.to_s.length) / 2
+			str = ' ' * p + tile.to_s + ' ' * p
+			str += ' ' while str.length < 7
+			str
+		end
+
+	end
+
+		# tile.empty? ? 7 * ' ' :
+	# end
+
 	def to_s
 		str = " _______ _______ _______ _______ \n|       |       |       |       |\n"
 		@tiles.each do |row|
-			str += "|   "
+			str += "|"
 			row.each do |tile|
-				str += "#{tile.empty? ? " " : tile}   |   "
+				# str += "   #{tile.empty? ? " " : tile.to_s}   "|"
+				str += format_tile(tile) + "|"
 			end
 			str += "\n|_______|_______|_______|_______|\n|       |       |       |       |\n"
 		end
@@ -46,7 +64,7 @@ class Board
 	# end
 
 	def assign_empty_tile
-		random_empty_tile.set rand > 0.5 ? 1 : 2
+		random_empty_tile.set rand > 0.5 ? 2 : 4
 	end
 
 	private
@@ -207,7 +225,7 @@ class Game
 					if tile != target_tile
 						merge_factor = factor_for_moving(tile, target_tile)
 						target_tile.is_alreday_merged = true if target_tile.val == tile.val
-						target_tile.set(tile.val + merge_factor)
+						target_tile.set(tile.val * merge_factor)
 						tile.set_empty
 					end
 				end
@@ -216,7 +234,7 @@ class Game
 
 
 		def factor_for_moving(tile, dest_tile)
-			tile.val == dest_tile.val ? 1 : 0
+			tile.val == dest_tile.val ? 2 : 1
 		end
 
 
