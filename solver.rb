@@ -148,5 +148,27 @@ class OneMoveAhead < D1
 end
 
 
+class PenaltyForOrphanTiles < OneMoveAhead
+		def evaluate(game)
+			sum_of_tiles = game.board.inject(0) { |sum, tile| sum + tile.val} 
+			empty_tiles_factor = (game.board.select{|t| t.empty?}.count * 15) 
+			max_tile = game.board.max_by { |tile| tile.val}.val
+			# highest_tile_factor = max_tile * max_tile
+			orphan_tiles_penalty = game.board.select { |t| orphan_tile?(t, game) }.count * 20
+			sum_of_tiles + empty_tiles_factor - orphan_tiles_penalty
+		end
+
+		def orphan_tile?(tile, game)
+			deltas = [ [1, 0], [-1, 0], [0 , 1], [0, -1] ]
+			ne = []
+			deltas.each do |d|
+				if [tile.row + d[0], tile.column + d[1]].all? { |x| x >= 0 && x < game.board.size}
+					ne << game.board.tiles[tile.row + d[0]][tile.column + d[1]]
+				end
+			end
+			ne.all? { |n| n.val > tile.val }
+		end
+end
+
 # s = D2.new
 # s.solve!
