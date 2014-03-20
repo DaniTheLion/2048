@@ -4,8 +4,8 @@ num_of_simulations = (ARGV[0] || 20).to_i
 res_str = ""
 
 # solver = D2.new
-[ RandomSolver, D1, D2, D3, NeverGoesUp, OneMoveAhead ].each do |strategy|
-# [ RandomSolver, D1 ].each do |strategy|
+# [ RandomSolver, D1, D2, D3, NeverGoesUp, OneMoveAhead ].each do |strategy|
+[ D4, PenaltyForOrphanTiles ].each do |strategy|
 # [ NeverGoesUp ].each do |solver_class|
 	solver = Solver.new(strategy)
 	n_wins, n_loses = 0, 0
