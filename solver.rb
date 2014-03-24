@@ -179,11 +179,6 @@ end
 
 
 class MixMaxAlphaBeta < D1
-		# def pick_move(game)
-		# 	throw alphabeta(game, 5, -Float::INFINITY, Float::INFINITY, true)
-		# end
-
-
 
 		def alphabeta(game, depth, alpha, beta, is_max)
 			return evaluate(game) if depth == 0 or game.win_or_lose?
@@ -226,40 +221,15 @@ class MixMaxAlphaBeta < D1
 
 		def pick_move(game)
 			@@counter += 1
-			puts "Round Number #{@@counter}"
 			moves_n_scores = game.possible_commands.collect do |move|
 				game_copy = Marshal::load(Marshal.dump(game))
 				game_copy.simulate_single(move)
 				[move, alphabeta(game_copy, 4, -Float::INFINITY, Float::INFINITY, false)]
 			end
 			max = moves_n_scores.max_by{ |k,v| v }[1]
+			puts "Round Number #{@@counter}\nMax Tile: #{game.board.max_by { |tile| tile.val}.val}\n\n"
 			moves_n_scores.select{ |k,v| v == max }.map{|k,v| k }.sample
 		end
-
-
-
-
-
-		WEIGHTS = { smooth_weight: 0.1,
-					      weight:        0.0,
-  						  land_weight:   0.0,
-  						  mono_2_weight: 1.0,
-    					  empty_weight:  2.7,
-    					  max_weight:    1.0 }
-
-
-
-		# def evaluate(game)
-		# 	# sum_of_tiles = game.board.inject(0) { |sum, tile| sum + tile.val} 
-		# 	# empty_tiles_factor = (game.board.select{|t| t.empty?}.count * 15) 
-		# 	empty_tiles_factor = (game.board.select{|t| t.empty?}.count * WEIGHTS[:empty_weight]) 
-		# 	max_tile = game.board.max_by { |tile| tile.val}.val
-		# 	# highest_tile_factor = max_tile * max_tile
-		# 	orphan_tiles_count = game.board.select { |t| orphan_tile?(t, game) }.count
-		# 	# sum_of_tiles + empty_tiles_factor - orphan_tiles_penalty
-		# 	# sum_of_tiles
-		# 	empty_tiles_factor*2.7 + max_tile - orphan_tiles_count*3
-		# end
 
 		def evaluate(game)
 			sum_of_tiles = game.board.inject(0) { |sum, tile| sum + tile.val} 
@@ -281,7 +251,3 @@ class MixMaxAlphaBeta < D1
 			ne.all? { |n| n.val > tile.val }
 		end
 end
-
-
-# s = Solver.new(MixMaxAlphaBeta)
-# s.solve!

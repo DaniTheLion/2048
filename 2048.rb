@@ -44,25 +44,17 @@ class Board
 
 	end
 
-		# tile.empty? ? 7 * ' ' :
-	# end
-
 	def to_s
 		str = " _______ _______ _______ _______ \n"
 		@tiles.each do |row|
 			str += "|       |       |       |       |\n|"
 			row.each do |tile|
-				# str += "   #{tile.empty? ? " " : tile.to_s}   "|"
 				str += format_tile(tile) + "|"
 			end
 			str += "\n|_______|_______|_______|_______|\n"
 		end
 		str += "\n"
 	end	
-
-	# def can_move_into?(tile, nr, nc)
-	# 	[nr, nc].all? { |n| 0 <= n && n < @size } && (@tiles[nr][nc].empty? || can_merge?(tile, @tiles[nr][nc]) )
-	# end
 
 	def assign_empty_tile
 		random_empty_tile.set rand > 0.5 ? 2 : 4
@@ -84,11 +76,6 @@ class Board
 			end while !@tiles[r][c].empty?
 			@tiles[r][c]
 		end
-
-		# def can_merge?(tile, other_tile)
-		# 	tile.val == other_tile.val
-		# end
-
 end
 
 
@@ -180,26 +167,17 @@ class Game
 
 	def win_or_lose?
 		win? || lose?
-		# if win? 
-		# 	# puts "\n\n\nWin!\n\n\n"
-		# 	# exit(0)
-		# elsif lose?
-		# 	# puts "\n\n\nLose...\n\n\n"
-		# 	# exit(0)
-		# end
 	end
 
 	def win?
 		@board.any? { |tile| tile.val ==  WIN_TILE }
 	end
 
-	# TODO: merge should be considered
 	def lose?
 		!CMDS.any? { |c| is_legal_command?(c) }
 	end
 
 	private
-		# TODO: merge is also legal!
 		def is_legal_command?(c)	
 			CMDS.include?(c) && @board.any? do |tile| 
 				d = CMD_DELTA[c]
@@ -252,14 +230,4 @@ class Game
 		def can_merge?(tile, other_tile)
 			tile.val == other_tile.val && other_tile.is_alreday_merged == false
 		end
-
-
-
 end
-
-
-
-# g = Game.new
-# g.play
-
-
