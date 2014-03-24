@@ -23,6 +23,7 @@ class Board
 
 	def each &block
 		@tiles.each do |row|
+			# pu÷ts row
 			row.each do |tile|
 				block.call(tile)
 			end
@@ -47,14 +48,14 @@ class Board
 	# end
 
 	def to_s
-		str = " _______ _______ _______ _______ \n|       |       |       |       |\n"
+		str = " _______ _______ _______ _______ \n"
 		@tiles.each do |row|
-			str += "|"
+			str += "|       |       |       |       |\n|"
 			row.each do |tile|
 				# str += "   #{tile.empty? ? " " : tile.to_s}   "|"
 				str += format_tile(tile) + "|"
 			end
-			str += "\n|_______|_______|_______|_______|\n|       |       |       |       |\n"
+			str += "\n|_______|_______|_______|_______|\n"
 		end
 		str += "\n"
 	end	
@@ -66,6 +67,8 @@ class Board
 	def assign_empty_tile
 		random_empty_tile.set rand > 0.5 ? 2 : 4
 	end
+
+
 
 	private
 		def set_initial_state(non_empty=INITIAL_NUM_NON_EMPTY)
@@ -126,7 +129,7 @@ class Tile
 end
 
 class Game
-	WIN_TILE = 11
+	WIN_TILE = 2048
 
 	CMDS = [:up, :down, :left, :right]
 	# top left board corner is [0,0]
@@ -166,6 +169,10 @@ class Game
 	def simulate_single(command)
 		move(command) 
 	end
+	def simulate_single_min(move)
+		r, c, val = move
+		@board.tiles[r][c].set(val)
+	end
 
 	def possible_commands
 		CMDS.select{ |c| is_legal_command?(c)}
@@ -193,8 +200,7 @@ class Game
 
 	private
 		# TODO: merge is also legal!
-		def is_legal_command?(c)
-			
+		def is_legal_command?(c)	
 			CMDS.include?(c) && @board.any? do |tile| 
 				d = CMD_DELTA[c]
 				nr = tile.row + d[0]

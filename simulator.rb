@@ -5,8 +5,8 @@ res_str = ""
 
 # solver = D2.new
 # [ RandomSolver, D1, D2, D3, NeverGoesUp, OneMoveAhead ].each do |strategy|
-[ D4, PenaltyForOrphanTiles ].each do |strategy|
-# [ NeverGoesUp ].each do |solver_class|
+[ MixMaxAlphaBeta ].each do |strategy|
+# [ OneMoveAhead ].each do |strategy|
 	solver = Solver.new(strategy)
 	n_wins, n_loses = 0, 0
 	max_tiles = []
